@@ -28,6 +28,17 @@ function getArticle ($connect, $id) {
     }
 }
 
+function getArticlesTag ($connect, $id) {
+    //echo($id);
+    $query = "SELECT * FROM articles INNER JOIN article2tag USING(article_id) WHERE article2tag.tag_id = '$id'";
+    $articles = pg_query($connect, $query);
+    $articleslist = [];
+    while($article = pg_fetch_assoc($articles)) {
+        $articleslist[] = $article;    
+	}
+    echo json_encode($articleslist);
+}
+
 function addArticle ($connect, $data) {
     $title = $data['title'];
     $content = $data['content'];
