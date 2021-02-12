@@ -7,7 +7,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if (isset($_GET['q'])) {
     $q = $_GET['q'];
-    // echo ($q).PHP_EOL;
+    //echo ($q).PHP_EOL;
     $params = explode('/', $q);
     if (isset($params[0])) {
         $type = $params[0];

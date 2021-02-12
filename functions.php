@@ -29,8 +29,17 @@ function getArticle ($connect, $id) {
 }
 
 function getArticlesTag ($connect, $id) {
-    //echo($id);
-    $query = "SELECT * FROM articles INNER JOIN article2tag USING(article_id) WHERE article2tag.tag_id = '$id'";
+    //echo($id).PHP_EOL;
+    $tag = explode('$', $id);
+    $count = count($tag);
+    //echo ($count).PHP_EOL;
+    $tag_number = implode(',', $tag);
+    //echo ($tag_number);
+    $query = "SELECT a.article_id, a.article_title, a.article_content 
+                FROM articles a INNER JOIN article2tag at ON a.article_id = at.article_id
+                WHERE at.tag_id IN ($tag_number)
+                GROUP BY a.article_id
+                HAVING COUNT(*) = $count";
     $articles = pg_query($connect, $query);
     $articleslist = [];
     while($article = pg_fetch_assoc($articles)) {
